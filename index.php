@@ -98,14 +98,121 @@ if (isset($_POST["upload"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spogify - Home Page</title>
     <style>
-        /* CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg stroke='%23000' stroke-width='100' stroke-opacity='0' %3E%3Ccircle fill='%23ff9d00' cx='0' cy='0' r='1800'/%3E%3Ccircle fill='%23fb8d17' cx='0' cy='0' r='1700'/%3E%3Ccircle fill='%23f47d24' cx='0' cy='0' r='1600'/%3E%3Ccircle fill='%23ed6e2d' cx='0' cy='0' r='1500'/%3E%3Ccircle fill='%23e35f34' cx='0' cy='0' r='1400'/%3E%3Ccircle fill='%23d85239' cx='0' cy='0' r='1300'/%3E%3Ccircle fill='%23cc453e' cx='0' cy='0' r='1200'/%3E%3Ccircle fill='%23be3941' cx='0' cy='0' r='1100'/%3E%3Ccircle fill='%23b02f43' cx='0' cy='0' r='1000'/%3E%3Ccircle fill='%23a02644' cx='0' cy='0' r='900'/%3E%3Ccircle fill='%23901e44' cx='0' cy='0' r='800'/%3E%3Ccircle fill='%23801843' cx='0' cy='0' r='700'/%3E%3Ccircle fill='%236f1341' cx='0' cy='0' r='600'/%3E%3Ccircle fill='%235e0f3d' cx='0' cy='0' r='500'/%3E%3Ccircle fill='%234e0c38' cx='0' cy='0' r='400'/%3E%3Ccircle fill='%233e0933' cx='0' cy='0' r='300'/%3E%3Ccircle fill='%232e062c' cx='0' cy='0' r='200'/%3E%3Ccircle fill='%23210024' cx='0' cy='0' r='100'/%3E%3C/g%3E%3C/svg%3E");
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        .top-container {
+            max-width: 100px; /* Adjust the width as desired */
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 25px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 25px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            padding: 20px;
+        }
+
+        .top-right {
+            text-align: center;
+        }
+        .top-right h1 {
+            margin: 0;
+            font-size: 10px; /* Adjust the font size as desired */
+        }
+
+        .top-right form button[name="logout"] {
+            background-color: #6f1341; /* Darkened color */
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.2s ease;
+        }
+
+        .top-right form button[name="logout"] {
+            background-color: #6f1341; /* Darkened color */
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            font-size: 14px; /* Adjust the font size as desired */
+            border-radius: 5px;
+            transition: background-color 0.2s ease;
+        }
+
+        .main-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 25px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            padding: 20px;
+            margin-top: 100px; /* Adjust as needed */
+        }
+        .song-selection-form select {
+            width: 70%; /* Adjust the width as desired */
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button[type="submit"]:hover {
+            color: #fb8d17;
+            background:#6f1341;
+            transition: all 0.2s ease;
+        }
+        .music-player {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .music-player audio {
+            width: 100%;
+            max-width: 500px;
+            height: 200px; /* Adjust the height as desired */
+        }
+        button[type="submit"] {
+            color: #fff;
+            background:#6f1341;
+            height: 40px;
+            width: 70px;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+        }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>Welcome, <?php echo $_SESSION["username"]; ?>!</h1>
+    <body>
+        <div class="top-container">
+            <div class="top-right">
+                <h1>Welcome, <?php echo $_SESSION["username"]; ?>!</h1>
+                <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                    <button type="submit" name="logout">Logout</button>
+                </form>
+            </div>
+        </div>
+    </body>
 
+  
+    <div class="main-container">
         <h2>Top Songs:</h2>
         <ul>
             <?php foreach ($songs as $song) : ?>
@@ -121,29 +228,30 @@ if (isset($_POST["upload"])) {
         </ul>
 
         <h2>Select Song:</h2>
-        <form class="song-selection-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-            <select id="song_selection" name="song_selection">
-                <?php foreach ($allSongs as $song) : ?>
-                    <option value="<?php echo $song; ?>"><?php echo $song; ?></option>
-                <?php endforeach; ?>
-            </select>
-            <button type="submit" name="song_select">Play</button>
-        </form>
+            <form class="song-selection-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                <select id="song_selection" name="song_selection">
+                    <?php foreach ($allSongs as $song) : ?>
+                        <?php
+                            $songTitle = pathinfo($song, PATHINFO_FILENAME);
+                        ?>
+                        <option value="<?php echo $song; ?>"><?php echo $songTitle; ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <button type="submit" name="song_select">Play</button>
+            </form>
 
         <h2>Upload Song:</h2>
-        <form class="song-upload-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype="multipart/form-data">
+            <form class="song-upload-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype="multipart/form-data">
             <input type="file" name="file" id="file">
             <button type="submit" name="upload">Upload</button>
         </form>
-        
-        <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-            <button type="submit" name="logout">Logout</button>
-        </form>
 
-        <audio id="audioPlayer" controls>
+        <div class="music-player">
+            <audio id="audioPlayer" controls autoplay>
             <source id="audioSource" src="" type="audio/mpeg">
             Your browser does not support the audio element.
-        </audio>
+            </audio>
+        </div>
     </div>
 
     <script>
